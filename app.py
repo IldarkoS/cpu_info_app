@@ -1,12 +1,19 @@
+import psutil
 import functools
+
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
 from asyncio import events
 from typing import Dict
 
-from fastapi import FastAPI
-import psutil
-from pydantic import BaseModel
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 
 class InfoResponse(BaseModel):
@@ -19,6 +26,23 @@ class InfoResponse(BaseModel):
     load_avg: Dict[int, float]
     memory_info: Dict[str, float]
     swap_memory: Dict[str, float]
+
+
+@app.get("/", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    return templates.TemplateResponse("dashboard.html", {"request": request})
+
+@app.get("/api/async_info")
+async def get_async_info():
+    cpu_percent = psutil.cpu_percent(interval=None)
+    memory_percent = psutil.virtual_memory().percent
+    cpu_freq = psutil.cpu_freq().current
+
+    return {
+        "cpu_percent": cpu_percent,
+        "memory_percent": memory_percent,
+        "cpu_freq": cpu_freq
+    }
 
 
 @app.get("/sync_info", response_model=InfoResponse)

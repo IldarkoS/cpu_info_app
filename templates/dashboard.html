@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitor Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/dashboard.js" defer></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto py-10">
+        <h1 class="text-3xl font-bold mb-5 text-center">System Monitor Dashboard</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-2">CPU Usage (%)</h2>
+                <canvas id="cpuChart"></canvas>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-2">Memory Usage (%)</h2>
+                <canvas id="memoryChart"></canvas>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-2">CPU Frequency (MHz)</h2>
+                <canvas id="freqChart"></canvas>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
