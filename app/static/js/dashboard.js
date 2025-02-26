@@ -42,19 +42,31 @@ const freqChart = new Chart(freqCtx, {
 });
 
 const updateCharts = () => {
-    fetch('/api/async_info')
+    fetch('/api/metrics')
         .then(response => response.json())
         .then(data => {
             const timestamp = new Date().toLocaleTimeString();
 
             cpuChart.data.labels.push(timestamp);
             cpuChart.data.datasets[0].data.push(data.cpu_percent);
+            if (cpuChart.data.labels.length > 20) {
+                cpuChart.data.labels.shift();
+                cpuChart.data.datasets[0].data.shift();
+            }
 
             memoryChart.data.labels.push(timestamp);
-            memoryChart.data.datasets[0].data.push(data.memory_percent);
+            memoryChart.data.datasets[0].data.push(data.memory_info.percent);
+            if (memoryChart.data.labels.length > 20) {
+                memoryChart.data.labels.shift();
+                memoryChart.data.datasets[0].data.shift();
+            }
 
             freqChart.data.labels.push(timestamp);
-            freqChart.data.datasets[0].data.push(data.cpu_freq);
+            freqChart.data.datasets[0].data.push(data.cpu_frequencies);
+            if (freqChart.data.labels.length > 20) {
+                freqChart.data.labels.shift();
+                freqChart.data.datasets[0].data.shift();
+            }
 
             cpuChart.update();
             memoryChart.update();
@@ -62,4 +74,16 @@ const updateCharts = () => {
         });
 };
 
-setInterval(updateCharts, 3000);
+
+const saveMetricsToDB = () => {
+    fetch('/metrics/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+};
+
+setInterval(updateCharts, 2000);
+
+setInterval(saveMetricsToDB, 60000);
