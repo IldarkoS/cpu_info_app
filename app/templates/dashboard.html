@@ -11,7 +11,7 @@
 <body class="bg-gray-100 text-gray-800">
     <div class="container mx-auto py-10">
         <h1 class="text-3xl font-bold mb-5 text-center">System Monitor Dashboard</h1>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-white shadow-md rounded-lg p-6">
                 <h2 class="text-xl font-semibold mb-2">CPU Usage (%)</h2>
@@ -24,6 +24,40 @@
             <div class="bg-white shadow-md rounded-lg p-6">
                 <h2 class="text-xl font-semibold mb-2">CPU Frequency (MHz)</h2>
                 <canvas id="freqChart"></canvas>
+            </div>
+        </div>
+
+        <div class="mt-10 bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-2xl font-bold mb-4">Аналитика</h3>
+
+            <div class="mb-5 text-center">
+                <label for="time-range" class="font-semibold mr-2">Выберите период:</label>
+                <select id="time-range" class="border rounded-md px-3 py-2">
+                    <option value="1h">Последний час</option>
+                    <option value="24h" selected>Последние 24 часа</option>
+                    <option value="7d">Последняя неделя</option>
+                </select>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <h4 class="text-lg font-semibold">Загрузка CPU:</h4>
+                    <p>Среднее: <span id="cpuAvg">-</span>%</p>
+                    <p>Макс: <span id="cpuMax">-</span>%</p>
+                    <p>Мин: <span id="cpuMin">-</span>%</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold">Использование памяти:</h4>
+                    <p>Среднее: <span id="memAvg">-</span>%</p>
+                    <p>Макс: <span id="memMax">-</span>%</p>
+                    <p>Мин: <span id="memMin">-</span>%</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold">Частота CPU:</h4>
+                    <p>Среднее: <span id="freqAvg">-</span> MHz</p>
+                    <p>Макс: <span id="freqMax">-</span> MHz</p>
+                    <p>Мин: <span id="freqMin">-</span> MHz</p>
+                </div>
             </div>
         </div>
     </div>
